@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
-
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <meta name="google" value="notranslate">
 
@@ -32,62 +32,66 @@
     </div>
   </nav>
 
-  <div class="jumbotron">
-    <div class="container">
+  <div id="map"></div>
+  <script>
 
-      <div id="map"></div>
-      <script>
-        function initMap() {
-          var myLatLng = {lat: -25.363, lng: 131.044};
+    function initApplication() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: -22.902575, lng: -47.064854},
+        zoom: 13,
+        mapTypeId: 'roadmap'
+      });
 
-          // Create a map object and specify the DOM element for display.
-          var map = new google.maps.Map(document.getElementById('map'), {
-            center: myLatLng,
-            zoom: 4
-          });
+      $.ajax({url: window.location.href + "api/places"}).then(function(data) {
 
-          // Create a marker and set its position.
-          var marker = new google.maps.Marker({
-            map: map,
-            position: myLatLng,
-            title: 'Hello World!'
-          });
+        var places = data.results;
+
+        if (places.length == 0) {
+          return;
         }
 
-      </script>
+        var markers = [];
 
-      <script src="https://maps.googleapis.com/maps/api/js?key=<%- process.env.GOOGLE_MAPS_API_KEY %>&callback=initMap" async defer></script>
+        markers.forEach(function(marker) {
+          marker.setMap(null);
+        });
 
-    </div>
-  </div>
+        markers = [];
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4">
-        <h2>Section 1</h2>
-        <p>Some information for section 1</p>
-        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-      </div>
-      <div class="col-md-4">
-        <h2>Section 2</h2>
-        <p>Some information for section 2 </p>
-        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-      </div>
-      <div class="col-md-4">
-        <h2>Section 3</h2>
-        <p>Some information for section 1</p>
-        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-      </div>
-    </div>
+        places.forEach(function(place) {
 
-    <hr>
+          if (!place.geometry) {
+            console.log("Returned place contains no geometry");
+            return;
+          }
 
-    <footer>
-      <p>&copy; Leandro Oliveira @ 2018</p>
-    </footer>
-  </div> <!-- /container -->
+          var icon = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+          };
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+          // Create a marker for each place.
+          markers.push(new google.maps.Marker({
+            map: map,
+            icon: icon,
+            title: place.name,
+            position: place.geometry.location
+          }));
+
+        });
+
+       });
+    }
+
+  </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%- process.env.GOOGLE_MAPS_API_KEY %>&libraries=places&callback=initApplication" async defer></script>
+
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>

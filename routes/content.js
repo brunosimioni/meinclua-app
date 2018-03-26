@@ -19,7 +19,7 @@ router.get('/sobre', function(req, res) {
 
 router.get('/termos_condicoes', function(req, res) {
 	res.render('termos_condicoes');
-});
 
+});
 
 module.exports = router;

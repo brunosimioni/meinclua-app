@@ -13,8 +13,10 @@
 var port = process.env.PORT || 8080;
 
 var express = require('express');
-var routes = require('./routes/index');
+var contentRoutes = require('./routes/content');
+var apiRoutes = require('./routes/api');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
 var app = express();
 
@@ -23,8 +25,11 @@ app.set('view engine', 'ejs');
 
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.use('/', routes);
+app.use('/', contentRoutes);
+app.use('/api', apiRoutes);
 
 app.use(function(req, res, next) {
 	var err = new Error('Not Found');

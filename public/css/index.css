@@ -1,42 +1,21 @@
-body {
-  margin: 0;
-}
-
 #map {
-  height: 430px;
-  position: relative;
-  width: 100%;
-}
-
-.maps-frame {
-  height: 430px;
-  width: 100%;
-}
-
-.kd-tabbed-vert.header-links .kd-tabbutton a {
-  color: #757575;
-  display: inline-block;
   height: 100%;
-  padding: 0 24px;
   width: 100%;
 }
-
-.kd-tabbed-vert.header-links .kd-tabbutton {
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
   padding: 0;
+  width: 100%;
 }
-
-.kd-tabbed-vert.header-links .kd-tabbutton.selected a {
-  color: #03a9f4;
-}
-
-.kd-tabbed-vert.header-links .kd-tabbutton a:focus {
-  text-decoration: none;
-}
-
-p.top-desc {
-  padding: 1em 1em .1em 1em;
-}
-
-p.bottom-desc {
-  padding: 0em 1em 1em 1em;
+.controls {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
