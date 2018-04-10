@@ -3,15 +3,17 @@
 
 <head>
   <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <meta name="google" value="notranslate">
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="/css/esqueceu_senha.css">
+
   <title>MeInclua</title>
- </head>
+
+</head>
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -24,28 +26,44 @@
         <a class="nav-item nav-link" href="/">Busca<span class="sr-only">(current)</span></a>
         <a class="nav-item nav-link" href="/contato">Contato</a>
         <a class="nav-item nav-link" href="/parceiros">Parceiros</a>
-        <a class="nav-item nav-link active" href="/sobre">Sobre</a>
+        <a class="nav-item nav-link" href="/sobre">Sobre</a>
         <a class="nav-item nav-link " href="/termos_condicoes">Termos e condições</a>
         <a class="nav-item nav-link " href="/central_de_ajuda">Central de Ajuda</a>
+        <a class="nav-item nav-link active" href="/esqueceu_sennha">Esqueceu a Senha?</a>
       </div>
     </div>
   </nav>
-  <div class="bg">
-  <h1>Sobre</h1>
-         <br></br>
-         <!-- Formulário -->
-         <div class="container">
-           <form action="action_page.php">
-               <label>Estes Termos e Condições aplicam-se a usuários no Brasil.
-               <br>Para todos os usuários</br>
-               Texto será desenvolvido</label>
-           </form>
+
+<div class="bg">
+      <h1>Esqueceu a senha?</h1>
+        <div class="col-75">
+          <div class="container">
+            <form action="/action_page.php">
+              <div class="row">
+                <div class="col-50">
+                <br></br>
+                  <h3>Preencha os campos abaixo</h3>
+                  <center><label for="email"><i class="fa fa-envelope"></i>Email</label></center>
+                  <center><input type="text" id="email" name="email" placeholder="meinclua@contato.com.br"></center>
+                  <center><label for="adr"><i class="fa fa-address-card-o"></i>CNPJ</label></center>
+                  <center><input type="text" id="adr" name="CNPJ" placeholder="00.000.0000/0000-00"></center>
+                </div>
+              </div>
          </div>
-         <!-- Formulário -->
+              <center><button onclick="myFunction()" class="btn">Enviar</button></center>
+        </div>
+              <script>
+              function myFunction() {
+                  alert("Senha encaminhada com sucesso.Verifique seu e-mail");
+              }
+              </script>
+            </form>
   <footer>
     <p>&copy; My App Leandro Oliveira 2018</p>
   </footer>
- </div> <!-- /container -->
+ </div>
+
+
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

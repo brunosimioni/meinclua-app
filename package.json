@@ -1,5 +1,5 @@
 {
-  "name": "meinclua-app",
+  "name": "myapp",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -20,5 +20,13 @@
   },
   "devDependencies": {
     "nodemon": "^1.17.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeandroOliveira10/meinclua-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LeandroOliveira10/meinclua-app/issues"
+  },
+  "homepage": "https://github.com/LeandroOliveira10/meinclua-app#readme"
 }

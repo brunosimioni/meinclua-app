@@ -24,24 +24,38 @@
         <a class="nav-item nav-link" href="/">Busca<span class="sr-only">(current)</span></a>
         <a class="nav-item nav-link" href="/contato">Contato</a>
         <a class="nav-item nav-link" href="/parceiros">Parceiros</a>
-        <a class="nav-item nav-link active" href="/sobre">Sobre</a>
+        <a class="nav-item nav-link" href="/sobre">Sobre</a>
         <a class="nav-item nav-link " href="/termos_condicoes">Termos e condições</a>
         <a class="nav-item nav-link " href="/central_de_ajuda">Central de Ajuda</a>
+        <a class="nav-item nav-link active" href="/login">Login</a>
       </div>
     </div>
   </nav>
   <div class="bg">
-  <h1>Sobre</h1>
-         <br></br>
-         <!-- Formulário -->
-         <div class="container">
-           <form action="action_page.php">
-               <label>Estes Termos e Condições aplicam-se a usuários no Brasil.
-               <br>Para todos os usuários</br>
-               Texto será desenvolvido</label>
-           </form>
-         </div>
-         <!-- Formulário -->
+         <div class="bg">
+             <h1>Login</h1>
+                <div class="col-75">
+                 <div class="container">
+                   <form action="/action_page.php">
+                     <div class="row">
+                       <div class="col-50">
+                       <br></br>
+                         <h3>Preencha os campos abaixo</h3>
+                         <center><label for="email"><i class="fa fa-envelope"></i>Email</label></center>
+                         <center><input type="text" id="email" name="email" placeholder="meinclua@contato.com.br"></center>
+                         <center><label for="adr"><i class="fa fa-address-card-o"></i>CNPJ</label></center>
+                         <center><input type="text" id="adr" name="CNPJ" placeholder="00.000.0000/0000-00"></center>
+                       </div>
+                     </div>
+                </div>
+                     <center><button onclick="myFunction()" class="btn">Enviar</button></center>
+               </div>
+                     <script>
+                     function myFunction() {
+                         alert("Senha encaminhada com sucesso.Verifique seu e-mail");
+                     }
+                     </script>
+                   </form>
   <footer>
     <p>&copy; My App Leandro Oliveira 2018</p>
   </footer>
