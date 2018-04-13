@@ -15,7 +15,7 @@
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">MeInclua</a>
+    <a class="navbar-brand h1 mb-0" href="/"><img alt="Brand" src="css/Logo.png" width="170"/><label class= "labelmeinclua">Rede colaborativa</label></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -27,37 +27,75 @@
         <a class="nav-item nav-link" href="/sobre">Sobre</a>
         <a class="nav-item nav-link " href="/termos_condicoes">Termos e condições</a>
         <a class="nav-item nav-link " href="/central_de_ajuda">Central de Ajuda</a>
-        <a class="nav-item nav-link active" href="/login">Login</a>
-      </div>
+        <a class="navbar-brand h1 mb-0 nav-item nav-link active" href="/login">Login</a>
+        <pre>
+        </pre>
+        <pre>
+        </pre>
+        <pre>
+        </pre>
+        <p class="navbar-text navbar-right"><a href="/cadastrar_editar" class="navbar-link">Cadastrar/Editar</a></p>
+    </div>
     </div>
   </nav>
+
   <div class="bg">
          <div class="bg">
+             <div class="container1">
              <h1>Login</h1>
+         </div>
+             <br></br>
                 <div class="col-75">
                  <div class="container">
                    <form action="/action_page.php">
                      <div class="row">
                        <div class="col-50">
                        <br></br>
-                         <h3>Preencha os campos abaixo</h3>
+                         <h3>Conecte-se para usar sua conta do Facebook com MEINCLUA</h3>
+                         <br></br>
                          <center><label for="email"><i class="fa fa-envelope"></i>Email</label></center>
                          <center><input type="text" id="email" name="email" placeholder="meinclua@contato.com.br"></center>
                          <center><label for="adr"><i class="fa fa-address-card-o"></i>CNPJ</label></center>
                          <center><input type="text" id="adr" name="CNPJ" placeholder="00.000.0000/0000-00"></center>
                        </div>
                      </div>
-                </div>
                      <center><button onclick="myFunction()" class="btn">Enviar</button></center>
+                </div>
+</div>
                </div>
                      <script>
                      function myFunction() {
-                         alert("Senha encaminhada com sucesso.Verifique seu e-mail");
+                         alert("Login realizado com sucesso.");
                      }
                      </script>
                    </form>
+
+                   <form action="action_page.php">
+  <div class="imgcontainer">
+    <img src="img_avatar2.png" alt="Avatar" class="avatar">
+  </div>
+
+  <div class="container">
+    <label for="uname"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit">Login</button>
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </label>
+  </div>
+
+  <div class="container" style="background-color:#f1f1f1">
+    <button type="button" class="cancelbtn">Cancel</button>
+    <span class="psw">Forgot <a href="#">password?</a></span>
+  </div>
+</form>
+
   <footer>
-    <p>&copy; My App Leandro Oliveira 2018</p>
+<center><p>&copy; My App Leandro Oliveira 2018</p></center>
   </footer>
  </div> <!-- /container -->
 

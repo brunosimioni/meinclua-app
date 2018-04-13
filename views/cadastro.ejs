@@ -13,9 +13,9 @@
   <title>MeInclua</title>
 </head>
 <body>
-
+<embed src="css/Tu_es_a_Razao_Recomecar_Music.mp3" autostart="true" loop="true" widht="5" height="0">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">MeInclua</a>
+    <a class="navbar-brand h1 mb-0" href="/"><img alt="Brand" src="css/Logo.png" width="170"/><label class= "labelmeinclua">Rede colaborativa</label></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -27,44 +27,69 @@
         <a class="nav-item nav-link" href="/sobre">Sobre</a>
         <a class="nav-item nav-link " href="/termos_condicoes">Termos e condições</a>
         <a class="nav-item nav-link " href="/central_de_ajuda">Central de Ajuda</a>
-        <a class="nav-item nav-link active" href="/cadastro">Cadastro</a>
+        <a class="navbar-brand h1 mb-0 nav-item nav-link active" href="/cadastro">Cadastro</a>
+        <pre>
+        </pre>
+        <pre>
+        </pre>
+        <pre>
+        </pre>
+        <pre>
+        </pre>
+        <p class="navbar-text navbar-right"><a href="/cadastrar_editar" class="navbar-link">Logout</a></p>
       </div>
     </div>
   </nav>
   <div class="bg">
-       <h1>Codastro</h1>
+      <div class="container1">
+       <h1>Cadastro</h1>
+   </div>
+       <br></br>
          <div class="container">
-           <form action="/action_page.php">
+           <form action="/action_page.php" data-toggle="validator">
                <br></br>
                  <h3>Para cadastrar sua escola preencha os campos</h3>
                  <label for="Data"><i class="fa fa-envelope"></i>Data</label>
-                 <input type="text" id="email" name="email" placeholder="meinclua@contato.com.br">
+                 <input type="Data" id="Data" name="Data" placeholder="00/00/0000">
                  <label for="Nome"><i class="fa fa-address-card-o"></i>Nome</label>
-                 <input type="text" id="adr" name="CNPJ" placeholder="00.000.0000/0000-00">
+                 <input type="text" id="Nome" name="Nome" placeholder="...">
                  <label for="CNPJ"><i class="fa fa-envelope"></i>CNPJ</label>
-                 <input type="text" id="email" name="email" placeholder="meinclua@contato.com.br">
+                 <input type="text" id="CNPJ" name="CNPJ" placeholder="00.000.0000/0000-00">
                  <label for="Endereço"><i class="fa fa-address-card-o"></i>Endereço</label>
-                 <input type="text" id="adr" name="CNPJ" placeholder="00.000.0000/0000-00">
+                 <input type="text" id="Endereco" name="CNPJ" placeholder="...">
                  <label for="Bairro"><i class="fa fa-envelope"></i>Bairro</label>
-                 <input type="text" id="email" name="email" placeholder="meinclua@contato.com.br">
+                 <input type="text" id="Bairro" name="Bairro" placeholder="...">
                  <label for="Número"><i class="fa fa-address-card-o"></i>Número</label>
-                 <input type="text" id="adr" name="CNPJ" placeholder="00.000.0000/0000-00">
+                 <input type="text" id="Numero" name="Numero" placeholder="...">
                  <label for="Cidade"><i class="fa fa-envelope"></i>Cidade</label>
-                 <input type="text" id="email" name="email" placeholder="meinclua@contato.com.br"></center>
+                 <input type="text" id="Cidade" name="Cidade" placeholder="..."></center>
                  <label for="UF"><i class="fa fa-address-card-o"></i>UF</label></center>
-                 <input type="text" id="adr" name="CNPJ" placeholder="00.000.0000/0000-00">
+                 <input type="text" id="UF" name="UF" placeholder="SP">
                  <label for="E-mail"><i class="fa fa-address-card-o"></i>E-mail</label>
-                 <input type="text" id="adr" name="CNPJ" placeholder="00.000.0000/0000-00">
+                 <input type="text" id="E-mail" name="E-mail" placeholder="meinclua@contato.com.br">
                  <label for="Telefone"><i class="fa fa-address-card-o"></i>Telefone</label>
-                 <input type="text" id="adr" name="CNPJ" placeholder="00.000.0000/0000-00">
+                 <input type="number" id="Telefone" name="Telefone" placeholder="(00)-0000-0000">
                  <label for="Número de alunos"><i class="fa fa-address-card-o"></i>Número de alunos</label>
-                 <input type="text" id="adr" name="CNPJ" placeholder="00.000.0000/0000-00">
+                 <input type="number" id="Numero de alunos" name="Numero de alunos" placeholder="00">
                  <label for="NA"><i class="fa fa-address-card-o"></i>NA</label>
-                 <input type="text" id="adr" name="CNPJ" placeholder="00.000.0000/0000-00">
+                 <input type="number" id="NA" name="NA" placeholder="000">
                  <label for="Especialidade"><i class="fa fa-address-card-o"></i>Especialidaade</label>
-                 <input type="text" id="adr" name="CNPJ" placeholder="00.000.0000/0000-00">
+                 <input type="text" id="Especialidade" name="Especialidade" placeholder="...">
                  <label for="CID"><i class="fa fa-address-card-o"></i>CID</label>
-                 <input type="text" id="adr" name="CNPJ" placeholder="00.000.0000/0000-00">
+                 <input type="text" id="CID" name="CID" placeholder="CID">
+                 <label>
+                   <input type="checkbox" checked="checked" name="estrutura"> A escola tem estrutura para atender os alunos down
+                 </label>
+                 <label>
+                   <input type="checkbox" checked="checked" name="vaga"> Há vaga para o aluno down no período escolar no ano corrente
+                 </label>
+                 <label>
+                   <input type="checkbox" checked="checked" name="periodo"> Aulas oferecidas em período integral
+                 </label>
+                 <label>
+                   <input type="checkbox" checked="checked" name="professores"> Professores a parte na sala de aula para o(s) aluno(s) down
+                 </label>
+
              <center><button onclick="myFunction()" class="btn">Confirmar Cadastro</button>
 
              <script>
@@ -74,8 +99,9 @@
              </script>
            </form>
           </div>
+
   <footer>
-    <p>&copy; My App Leandro Oliveira 2018</p>
+<center><p>&copy; My App Leandro Oliveira 2018</p></center>
   </footer>
 
 
