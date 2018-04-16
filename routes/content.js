@@ -5,10 +5,6 @@ router.get('/', function(req, res) {
 	res.render('index');
 });
 
-router.get('/contato', function(req, res) {
-	res.render('contato');
-});
-
 router.get('/parceiros', function(req, res) {
 	res.render('parceiros');
 });
@@ -22,8 +18,8 @@ router.get('/termos_condicoes', function(req, res) {
 
 });
 
-router.get('/central_de_ajuda', function(req, res) {
-	res.render('central_de_ajuda');
+router.get('/ajuda', function(req, res) {
+	res.render('ajuda');
 
 });
 
@@ -62,11 +58,7 @@ router.get('/login', function(req, res) {
 router.get('/_cs', function(req, res) {
 	res.render('index_cs');
 });
-
-router.get('/contato_cs', function(req, res) {
-	res.render('contato_cs');
-});
-
+''
 router.get('/parceiros_cs', function(req, res) {
 	res.render('parceiros_cs');
 });
@@ -77,11 +69,6 @@ router.get('/sobre_cs', function(req, res) {
 
 router.get('/termos_condicoes_cs', function(req, res) {
 	res.render('termos_condicoes_cs');
-
-});
-
-router.get('/central_de_ajuda_cs', function(req, res) {
-	res.render('central_de_ajuda_cs');
 
 });
 
