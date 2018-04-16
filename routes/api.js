@@ -1,6 +1,7 @@
 var express = require('express');
 var unirest = require('unirest');
 var sgSend = require('../shared/SendGrid');
+var sqlite3db = require('../shared/Database');
 
 var router = express.Router();
 var apiKey = process.env.GOOGLE_MAPS_API_KEY;
@@ -27,4 +28,14 @@ router.post("/contact", function(req, res) {
     sgSend((body.from || ""), (body.text || ""));
     res.json({status: "ok"});
 });
+
+
+router.post("/signup", function(req, res) {
+    try{
+        console.log(sqlite3db);
+    }
+    catch(e) {console.log(e)};
+    res.json({status: "ok"});
+});
+
 module.exports = router;

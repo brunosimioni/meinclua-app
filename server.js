@@ -12,9 +12,11 @@
 
 var port = process.env.PORT || 8080;
 
+
 var express = require('express');
 var contentRoutes = require('./routes/content');
 var apiRoutes = require('./routes/api');
+var db = require('./shared/Database');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
