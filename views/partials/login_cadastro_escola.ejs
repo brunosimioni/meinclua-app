@@ -1,0 +1,146 @@
+<form>
+
+  <div class="form-row">
+
+    <div class="col-md-6 mb-3">
+      <label for="escola_email">Email</label>
+      <input type="text" class="form-control" id="escola_email" aria-describedby="escola_email" placeholder="Email...">
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label for="escola_senha">Senha</label>
+      <input type="password" class="form-control" id="escola_senha" placeholder="Senha...">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="escola_cnpj">CNPJ</label>
+      <input type="text" class="form-control" id="escola_cnpj" placeholder="CNPJ..." value="" required>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="escola_nomefantansia">Nome Fantasia</label>
+      <input type="text" class="form-control" id="escola_nomefantansia" placeholder="Nome Fantasia..." value="" required>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-12 mb-3">
+      <label for="escola_endereco_completo">Endereço</label>
+      <input type="text" class="form-control" id="escola_endereco_completo" placeholder="Endereço completo...." required>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="escola_logradouro">Logradouro</label>
+      <input type="text" class="form-control" id="escola_logradouro" placeholder="Logradouro..." required>
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="escola_numero">Número</label>
+      <input type="text" class="form-control" id="escola_numero" placeholder="Número..." required>
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="escola_complemento">Complemento</label>
+      <input type="text" class="form-control" id="escola_complemento" placeholder="Complemento..." required>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="escola_cidade">Cidade</label>
+      <input type="text" class="form-control" id="escola_cidade" placeholder="Cidade..." required>
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="escola_estado">Estado</label>
+      <input type="text" class="form-control" id="escola_estado" placeholder="Estado..." required>
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="escola_cep">Cep</label>
+      <input type="text" class="form-control" id="escola_cep" placeholder="Cep..." required>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-12 mb-3">
+      <label for="escola_pais">País</label>
+      <input type="text" class="form-control" id="escola_pais" placeholder="País..." required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="escola_check_termos" required>
+      <label class="form-check-label" for="escola_check_termos">
+        <a target="_blank" href="termos_condicoes">Aceito os termos de condições</a>
+      </label>
+    </div>
+  </div>
+  <button class="btn btn-primary" type="submit">Cadastrar escola</button>
+</form>
+
+
+<!-- Script de autocomplete do Google Maps Autocomplete API -->
+<script>
+
+  var placeSearch, autocomplete;
+  var componentForm = {
+    street_number: 'short_name',
+    route: 'long_name',
+    locality: 'long_name',
+    administrative_area_level_1: 'short_name',
+    country: 'long_name',
+    postal_code: 'short_name'
+  };
+
+  function initAutocomplete() {
+    // Create the autocomplete object, restricting the search to geographical
+    // location types.
+    autocomplete = new google.maps.places.Autocomplete(
+        /** @type {!HTMLInputElement} */(document.getElementById('escola_endereco_completo')),
+        {types: ['geocode']});
+
+    // When the user selects an address from the dropdown, populate the address
+    // fields in the form.
+    autocomplete.addListener('place_changed', fillInAddress);
+  }
+
+  function fillInAddress() {
+    // Get the place details from the autocomplete object.
+    var place = autocomplete.getPlace();
+
+    for (var component in componentForm) {
+      document.getElementById(component).value = '';
+      document.getElementById(component).disabled = false;
+    }
+
+    // Get each component of the address from the place details
+    // and fill the corresponding field on the form.
+    for (var i = 0; i < place.address_components.length; i++) {
+      var addressType = place.address_components[i].types[0];
+      if (componentForm[addressType]) {
+        var val = place.address_components[i][componentForm[addressType]];
+        document.getElementById(addressType).value = val;
+      }
+    }
+  }
+
+  // Bias the autocomplete object to the user's geographical location,
+  // as supplied by the browser's 'navigator.geolocation' object.
+  function geolocate() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var geolocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        var circle = new google.maps.Circle({
+          center: geolocation,
+          radius: position.coords.accuracy
+        });
+        autocomplete.setBounds(circle.getBounds());
+      });
+    }
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%- process.env.GOOGLE_MAPS_API_KEY %>&libraries=places&callback=initAutocomplete"
+    async defer></script>
