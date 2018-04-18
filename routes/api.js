@@ -32,7 +32,7 @@ router.post("/contact", function(req, res) {
 });
 
 
-router.post("/signup", function(req, res) {
+router.post("/signup-escola", function(req, res) {
 
   var name = req.body.name;
   var cnpj = req.body.cnpj;
@@ -45,9 +45,9 @@ router.post("/signup", function(req, res) {
   } else {
     type = 1;
   }
-
+  console.log(req.body);
   try{
-      
+
   }
   catch(e) {console.log(e)};
   res.json({status: "ok"});

@@ -1,4 +1,4 @@
-<form>
+<form onsubmit="return cadastrarEscola(event)">
 
   <div class="form-row">
 
@@ -33,39 +33,45 @@
 
   <div class="form-row">
     <div class="col-md-6 mb-3">
-      <label for="escola_logradouro">Logradouro</label>
-      <input type="text" class="form-control" id="escola_logradouro" placeholder="Logradouro..." required>
+      <label for="escola_endereco_route">Logradouro</label>
+      <input type="text" class="form-control" id="escola_endereco_route" disabled placeholder="Logradouro..." required>
     </div>
     <div class="col-md-3 mb-3">
-      <label for="escola_numero">Número</label>
-      <input type="text" class="form-control" id="escola_numero" placeholder="Número..." required>
+      <label for="escola_endereco_street_number">Número</label>
+      <input type="text" class="form-control" id="escola_endereco_street_number" placeholder="Número..." required>
     </div>
     <div class="col-md-3 mb-3">
-      <label for="escola_complemento">Complemento</label>
-      <input type="text" class="form-control" id="escola_complemento" placeholder="Complemento..." required>
+      <label for="escola_logradouro_complemento">Complemento</label>
+      <input type="text" class="form-control" id="escola_endereco_complemento" placeholder="Complemento...">
     </div>
   </div>
 
   <div class="form-row">
     <div class="col-md-6 mb-3">
-      <label for="escola_cidade">Cidade</label>
-      <input type="text" class="form-control" id="escola_cidade" placeholder="Cidade..." required>
+      <label for="escola_endereco_administrative_area_level_2">Cidade</label>
+      <input type="text" class="form-control" id="escola_endereco_administrative_area_level_2" disabled placeholder="Cidade..." required>
     </div>
     <div class="col-md-3 mb-3">
-      <label for="escola_estado">Estado</label>
-      <input type="text" class="form-control" id="escola_estado" placeholder="Estado..." required>
+      <label for="escola_endereco_administrative_area_level_1">Estado</label>
+      <input type="text" class="form-control" id="escola_endereco_administrative_area_level_1" disabled placeholder="Estado..." required>
     </div>
     <div class="col-md-3 mb-3">
-      <label for="escola_cep">Cep</label>
-      <input type="text" class="form-control" id="escola_cep" placeholder="Cep..." required>
+      <label for="escola_endereco_postal_code">Cep</label>
+      <input type="text" class="form-control" id="escola_endereco_postal_code" disabled placeholder="Cep..." required>
     </div>
   </div>
   <div class="form-row">
-    <div class="col-md-12 mb-3">
-      <label for="escola_pais">País</label>
-      <input type="text" class="form-control" id="escola_pais" placeholder="País..." required>
+    <div class="col-md-6 mb-3">
+      <label for="escola_endereco_country">País</label>
+      <input type="text" class="form-control" id="escola_endereco_country" disabled placeholder="País..." required>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label for="escola_endereco_gmaps_id">Local do Google Maps</label>
+      <input type="text" class="form-control" id="escola_endereco_gmaps_id" placeholder="Encontre seu local..." required>
     </div>
   </div>
+
 
   <div class="form-group">
     <div class="form-check">
@@ -86,7 +92,7 @@
   var componentForm = {
     street_number: 'short_name',
     route: 'long_name',
-    locality: 'long_name',
+    administrative_area_level_2: 'long_name',
     administrative_area_level_1: 'short_name',
     country: 'long_name',
     postal_code: 'short_name'
@@ -99,6 +105,17 @@
         /** @type {!HTMLInputElement} */(document.getElementById('escola_endereco_completo')),
         {types: ['geocode']});
 
+
+    var searchBox = new google.maps.places.SearchBox(document.getElementById("escola_endereco_gmaps_id"));
+    searchBox.addListener('places_changed', function() {
+      var places = searchBox.getPlaces();
+
+      if (places.length == 0) { return; }
+      places.forEach(function(place) {
+        document.getElementById("escola_endereco_gmaps_id").setAttribute("gmaps_id", place.id);
+      });
+   });
+
     // When the user selects an address from the dropdown, populate the address
     // fields in the form.
     autocomplete.addListener('place_changed', fillInAddress);
@@ -106,11 +123,12 @@
 
   function fillInAddress() {
     // Get the place details from the autocomplete object.
+    var cpt;
     var place = autocomplete.getPlace();
 
     for (var component in componentForm) {
-      document.getElementById(component).value = '';
-      document.getElementById(component).disabled = false;
+      cpt = "escola_endereco_" + component;
+      document.getElementById(cpt).value = '';
     }
 
     // Get each component of the address from the place details
@@ -119,28 +137,48 @@
       var addressType = place.address_components[i].types[0];
       if (componentForm[addressType]) {
         var val = place.address_components[i][componentForm[addressType]];
-        document.getElementById(addressType).value = val;
+        cpt = "escola_endereco_" + addressType;
+
+        console.log("cpt: " + cpt + " val: "+ val);
+        document.getElementById(cpt).value = val;
       }
     }
   }
 
-  // Bias the autocomplete object to the user's geographical location,
-  // as supplied by the browser's 'navigator.geolocation' object.
-  function geolocate() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var geolocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        var circle = new google.maps.Circle({
-          center: geolocation,
-          radius: position.coords.accuracy
-        });
-        autocomplete.setBounds(circle.getBounds());
-      });
-    }
+
+
+  function cadastrarEscola(event) {
+    var fields = ["escola_email", "escola_senha", "escola_endereco_route",
+      "escola_endereco_street_number", "escola_endereco_complemento",
+      "escola_endereco_administrative_area_level_2", "escola_endereco_administrative_area_level_1",
+      "escola_endereco_country", "escola_endereco_postal_code"];
+
+      var data = {};
+
+      for (var i in fields) {
+        data[fields[i]] = $("#" + fields[i]).val() || "n/a";
+      }
+
+      data.escola_endereco_gmaps_id = document.getElementById("escola_endereco_gmaps_id").getAttribute("gmaps_id");
+
+      try{
+          $.ajax(
+              {type: "POST",
+              url: window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/')) + "api/signup-escola",
+              data: data
+              }
+          ).then(function(data) {
+              if (data.status == "ok")
+                  alert("Escola cadastrada com sucesso.");
+                  window.redirect("/");
+          });
+      } catch(e) {
+          alert(e)
+      }
+
+      return false;
   }
+
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=<%- process.env.GOOGLE_MAPS_API_KEY %>&libraries=places&callback=initAutocomplete"
     async defer></script>
