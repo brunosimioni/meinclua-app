@@ -4,12 +4,13 @@
 
     <div class="col-md-6 mb-3">
       <label for="escola_email">Email</label>
-      <input type="text" class="form-control" id="escola_email" aria-describedby="escola_email" placeholder="Email...">
+      <input type="email" class="form-control" id="escola_email" aria-describedby="escola_email" placeholder="Email..." required>
+      <small id="emailHelp" class="form-text text-muted">Não compartilharemos seu email.</small>
     </div>
 
     <div class="col-md-6 mb-3">
       <label for="escola_senha">Senha</label>
-      <input type="password" class="form-control" id="escola_senha" placeholder="Senha...">
+      <input type="password" class="form-control" id="escola_senha" placeholder="Senha..." required>
     </div>
   </div>
 
@@ -21,6 +22,25 @@
     <div class="col-md-6 mb-3">
       <label for="escola_nomefantansia">Nome Fantasia</label>
       <input type="text" class="form-control" id="escola_nomefantansia" placeholder="Nome Fantasia..." value="" required>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-3 mb-3">
+      <label for="escola_telefone">Telefone</label>
+      <input type="text" class="form-control" id="escola_telefone" placeholder="Telefone..." value="" required>
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="escola_especialidade">Especialidade</label>
+      <input type="text" class="form-control" id="escola_especialidade" placeholder="Especialidade..." value="" required>
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="escola_numalunos">Núm. Alunos</label>
+      <input type="number" class="form-control" id="escola_numalunos" placeholder="Núm. Alunos..." value="" required>
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="escola_cid">CID</label>
+      <input type="text" class="form-control" id="escola_cid" placeholder="CID..." value="" required>
     </div>
   </div>
 
@@ -75,11 +95,28 @@
 
   <div class="form-group">
     <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="escola_check_estrutura" >
+      <label class="form-check-label" for="escola_check_estrutura">A escola tem estrutura para atender os alunos down</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="escola_check_vagas" >
+      <label class="form-check-label" for="escola_check_vagas">Há vaga para o aluno down no período escolar no ano corrente</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="escola_check_integral" >
+      <label class="form-check-label" for="escola_check_integral">Aulas oferecidas em período integral</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="escola_professores" >
+      <label class="form-check-label" for="escola_professores">Professores a parte na sala de aula para o(s) aluno(s) down</label>
+    </div>
+    <div class="form-check">
       <input class="form-check-input" type="checkbox" value="" id="escola_check_termos" required>
       <label class="form-check-label" for="escola_check_termos">
         <a target="_blank" href="termos_condicoes">Aceito os termos de condições</a>
       </label>
     </div>
+
   </div>
   <button class="btn btn-primary" type="submit">Cadastrar escola</button>
 </form>
@@ -148,10 +185,12 @@
 
 
   function cadastrarEscola(event) {
-    var fields = ["escola_email", "escola_senha", "escola_endereco_route",
-      "escola_endereco_street_number", "escola_endereco_complemento",
+    var fields = ["escola_email", "escola_senha", "escola_cnpj", "escola_telefone",
+      "escola_especialidade", "escola_numalunos", "escola_cid", "escola_endereco_completo",
+      "escola_endereco_route", "escola_endereco_street_number", "escola_endereco_complemento",
       "escola_endereco_administrative_area_level_2", "escola_endereco_administrative_area_level_1",
-      "escola_endereco_country", "escola_endereco_postal_code"];
+      "escola_endereco_postal_code", "escola_endereco_country",
+      "escola_check_estrutura", "escola_check_vagas", "escola_check_integral", "escola_professores", "escola_check_termos"];
 
       var data = {};
 
@@ -159,18 +198,19 @@
         data[fields[i]] = $("#" + fields[i]).val() || "n/a";
       }
 
+      data.type = "escola";
       data.escola_endereco_gmaps_id = document.getElementById("escola_endereco_gmaps_id").getAttribute("gmaps_id");
 
       try{
           $.ajax(
               {type: "POST",
-              url: window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/')) + "api/signup-escola",
+              url: window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/')) + "api/signup",
               data: data
               }
           ).then(function(data) {
               if (data.status == "ok")
                   alert("Escola cadastrada com sucesso.");
-                  window.redirect("/");
+                  window.location.href = "/";
           });
       } catch(e) {
           alert(e)

@@ -31,36 +31,107 @@ router.post("/contact", function(req, res) {
     res.json({status: "ok"});
 });
 
+router.post("/signup", function(req, res) {
 
-router.post("/signup-escola", function(req, res) {
+  try
+  {
+    var data = req.body;
+    console.log(data);
 
-  var name = req.body.name;
-  var cnpj = req.body.cnpj;
-  var email = req.body.email;
-  var password = req.body.password;
-  var type;
+    var stmt;
 
-  if (cnpj != null && cnpj.length > 0) {
-    type = 2
-  } else {
-    type = 1;
+    if (data.type == "escola") {
+
+      var fields = ["escola_email", "escola_senha", "escola_cnpj", "escola_telefone",
+        "escola_especialidade", "escola_numalunos", "escola_cid", "escola_endereco_completo",
+        "escola_endereco_route", "escola_endereco_street_number", "escola_endereco_complemento",
+        "escola_endereco_administrative_area_level_2", "escola_endereco_administrative_area_level_1",
+        "escola_endereco_postal_code", "escola_endereco_country", "escola_endereco_gmaps_id",
+        "escola_check_estrutura", "escola_check_vagas", "escola_check_integral", "escola_professores", "escola_check_termos"];
+
+      var params = [];
+      for (var i in fields) {
+        params.push(data[fields[i]]);
+      }
+
+      var query = "INSERT INTO escolas (" + fields.join(", ");
+      query += ") VALUES (";
+      for (var i = 0; i < fields.length; i++) {
+        query += "?"
+
+        if (i < fields.length-1)
+          query += ","
+      }
+
+      query += ")";
+
+      console.log("signup escola query: " + query);
+      stmt = db.prepare(query, params);
+    }
+    else if (data.type == "usuario")
+    {
+      console.log("insercao no banco");
+      stmt = db.prepare("INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)", data.usuario_nome, data.usuario_email, data.usuario_senha);
+    }
+
+    stmt.run();
+    stmt.finalize();
+
+    req.session.user = data;
+    res.json({user: data, status: "ok"});
+  } catch (e) {
+    console.log("Erro ao cadastrar usuário.");
+    console.log(e);
   }
-  console.log(req.body);
-  try{
-
-  }
-  catch(e) {console.log(e)};
-  res.json({status: "ok"});
 });
 
-router.post("/validate_login", function(req, res) {
+router.post("/login", function(req, res) {
+  try {
+      var data = req.body;
+      var email = data.login_email;
+      var senha = data.login_senha;
 
-  try{
-      console.log(db);
+      db.get("SELECT * FROM usuarios WHERE email = ? and senha = ?", email, senha, function(err, usuario)
+      {
+        console.log("Tentativa de login de usuário. Email: " + email + " + senha: " + senha + " resultado: " + JSON.stringify(usuario));
+        if (usuario == null) {
+          db.get("SELECT * FROM escolas WHERE email = ? and senha = ?", email, senha, function(err, escola) {
+            console.log("Tentativa de login de escola. Email: " + email + " + senha: " + senha + " resultado: " + JSON.stringify(escola));
+            if (escola == null) {
+                res.json({escola: escola, status: "nok"});
+            } else {
+              // deixar o dado parecido com o form de signup
+              for (var i in escola) {
+                escola["escola_"+i] = escola[i];
+                delete escola[i];
+              }
+              usuario.type = "escola";
+              req.session.user = escola;
+              res.json({status: "ok"});
+            }
+          });
+        }
+        else
+        {
+          // deixar o dado parecido com o form de signup
+          for (var i in usuario) {
+            usuario["usuario_"+i] = usuario[i];
+            delete usuario[i];
+          }
+          usuario.type = "usuario";
+          req.session.user = usuario;
+          res.json({status: "ok"});
+        }
+     });
   }
-  catch(e) {console.log(e)};
-  res.json({status: "ok"});
+  catch(e) {
+    console.log(e)
+  };
 });
 
+router.post("/logout", function(req, res) {
+  req.session.user = null;
+  res.json({status: "ok"});
+});
 
 module.exports = router;

@@ -1,19 +1,8 @@
-//const path = require('path');
-//const mongoose = require('mongoose');
-
-//mongoose.Promise = global.Promise;
-//mongoose.connect('mongodb://localhost/expressdemo');
-//const CoinRouter = require('./routes/CoinRouter');
-//app.use('/coins', CoinRouter);
-
-//const bodyParser = require('body-parser');
-//app.use(bodyParser.urlencoded({extended: true}));
-//app.use(bodyParser.json());
-
 var port = process.env.PORT || 8080;
 
 
 var express = require('express');
+var session = require('express-session');
 var contentRoutes = require('./routes/content');
 var apiRoutes = require('./routes/api');
 var db = require('./shared/Database');
@@ -24,6 +13,17 @@ var app = express();
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+app.use(session({
+  secret: "sosecret",
+  saveUninitialized: false,
+  resave: false
+}));
+
+// middleware to make 'user' available to all templates
+app.use(function(req, res, next) {
+  res.locals.user = req.session && req.session.user ? req.session.user : null;
+  next();
+});
 
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));

@@ -1,6 +1,5 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
-
 <head>
   <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,7 +23,7 @@
           <a class="nav-item nav-link" href="/parceiros">Parceiros</a>
           <a class="nav-item nav-link" href="/sobre">Sobre</a>
           <a class="nav-item nav-link" href="/ajuda">Ajuda</a>
-          <a class="nav-item nav-link active" href="/login">Login</a>
+          <% include ./partials/user-area.ejs %>
       </div>
     </div>
   </nav>
@@ -35,33 +34,7 @@
     </br>
     </br>
 
-    <form>
-      <div class="form-group">
-        <label for="exampleInputEmail1">Email</label>
-        <div class="row">
-            <div class="col">
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Endereço de email...">
-            </div>
-            <div class="col">
-                <button type="submit" class="btn btn-seconday">Esqueci a senha</button>
-            </div>
-        </div>
-        <small id="emailHelp" class="form-text text-muted">Nós não compartilharemos seu email com ninguém.</small>
-      </div>
-      <div class="form-group">
-      <label for="exampleInputPassword1">Senha</label>
-        <div class="row">
-            <div class="col">
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <div class="col">
-                <button type="submit" class="btn btn-primary">Entrar</button>
-            </div>
-        </div>
-
-      </div>
-
-    </form>
+    <% include ./partials/login_signin.ejs %>
 
     </br>
     </br>

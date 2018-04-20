@@ -1,0 +1,27 @@
+<%
+if (user == null) {
+%>
+<a class="nav-item nav-link active" href="/login">Login</a>
+<%
+} else {
+%>
+Logado: <%=user.type == "usuario" ? user.usuario_nome : user.escola_cnpj %> <a onclick=logout()>logout</a>
+<%
+}
+%>
+
+<script>
+  function logout() {
+    try{
+        $.ajax(
+            {type: "POST",
+            url: window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/')) + "api/logout"
+            }
+        ).then(function(data) {
+            window.location.href = "/";
+        });
+    } catch(e) {
+        alert(e)
+    }
+  }
+</script>

@@ -1,0 +1,49 @@
+<form onsubmit="return login(event)">
+
+  <div class="form-group">
+    <div class="form-row">
+      <div class="col-md-6 mb-3">
+        <label for="login_email">Email</label>
+        <input type="email" class="form-control" id="login_email" aria-describedby="emailHelp" placeholder="Endereço de email..." required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="login_senha">Senha</label>
+        <input type="password" class="form-control" id="login_senha" placeholder="Senha..." required>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Entrar</button>
+</form>
+
+
+<script>
+
+  function login(event) {
+    var fields = ["login_email", "login_senha"];
+
+      var data = {};
+
+      for (var i in fields) {
+        data[fields[i]] = $("#" + fields[i]).val() || "n/a";
+      }
+
+      try{
+          $.ajax(
+              {type: "POST",
+              url: window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/')) + "api/login",
+              data: data
+              }
+          ).then(function(data) {
+              if (data.status == "ok")
+                  window.location.href = "/";
+              else
+                alert("Usuário/senha não existente")
+          });
+      } catch(e) {
+          alert(e)
+      }
+
+      return false;
+  }
+
+</script>
