@@ -36,11 +36,45 @@
   </footer>
   <script>
 
+    this.infoWindow = null;
+    this.curMarker = null;
+    var markerContentString = "";
+
+    markerContentString += "<div class='container'>";
+    markerContentString += "  <div class='row'>";
+    markerContentString += "    <div class='col-8'>";
+    markerContentString += "      <a href='__website__'>__name__</a>";
+    markerContentString += "    </div>";
+    markerContentString += "    <div class='col-4'>";
+    markerContentString += "      Rating __rating__";
+    markerContentString += "    </div>";
+    markerContentString += "  </div>";
+    markerContentString += "  <div class='row'>";
+    markerContentString += "    <div class='col-12'>";
+    markerContentString += "       __tel__";
+    markerContentString += "    </div>";
+    markerContentString += "  </div>";
+    markerContentString += "  <div class='row'>";
+    markerContentString += "    <div class='col-12'>";
+    markerContentString += "      __addr__";
+    markerContentString += "    </div>";
+    markerContentString += "  </div>";
+
+    markerContentString += "</div>";
+
+    //markerContentString += "";
+    //markerContentString += "<button type='button' class='btn btn-secondary btn-sm' onclick=logout()>Logout</button>";
+    var self = this;
+
     function initApplication() {
       var map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -22.902575, lng: -47.064854},
         zoom: 13,
         mapTypeId: 'roadmap'
+      });
+
+      self.infoWindow = new google.maps.InfoWindow({
+         content: markerContentString
       });
 
       $.ajax({url: window.location.href + "api/places"}).then(function(data) {
@@ -75,19 +109,43 @@
           };
 
           // Create a marker for each place.
-          markers.push(new google.maps.Marker({
+          var marker = new google.maps.Marker({
             map: map,
-            icon: icon,
+            data: place,
+            icon: place.icon,
             title: place.name,
             position: place.geometry.location
-          }));
+          });
 
+          marker.addListener('click', function() {
+            showMarkerInfo(marker);
+          });
+
+          markers.push(marker);
         });
-
-       });
+      });
     }
 
 
+    function showMarkerInfo(marker) {
+      if (self.curMarker) self.infoWindow.close();
+      self.curMarker = marker;
+      var place = marker.data;
+
+      $.ajax({url: window.location.href + "api/places/details/"+place.place_id}).then(function(data) {
+
+        var place = data.result;
+
+        self.infoWindow.setContent(
+          markerContentString.replace("__name__", place.name)
+            .replace("__tel__", place.formatted_phone_number)
+            .replace("__addr__", place.formatted_address)
+            .replace("__rating__", (place.rating || "n/a"))
+            .replace("__website__", place.website)
+        );
+        self.infoWindow.open(map, marker);
+      });
+    }
 
   </script>
 

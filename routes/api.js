@@ -7,7 +7,7 @@ var db = require('../shared/Database');
 var router = express.Router();
 var apiKey = process.env.GOOGLE_MAPS_API_KEY;
 var appUrl = process.env.URL;
-var GooglePlaceAPISearch = "https://maps.googleapis.com/maps/api/place/radarsearch/json?"
+var GooglePlaceAPISearch = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
 
 GooglePlaceAPISearch += "location=-22.902575,-47.064854&";
 GooglePlaceAPISearch += "radius=20000&";
@@ -16,8 +16,23 @@ GooglePlaceAPISearch += "keyword=escolas%20em%20campinas&";
 GooglePlaceAPISearch += "rankby=distance&";
 GooglePlaceAPISearch += "key=" + apiKey;
 
+var GooglePlaceAPIDetails = "https://maps.googleapis.com/maps/api/place/details/json?";
+GooglePlaceAPIDetails += "placeid=__placeid__&"
+GooglePlaceAPIDetails += "key=" + apiKey;
+
 router.get('/places', function(req, res) {
   unirest.get(GooglePlaceAPISearch)
+    .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+    .end(function (response) {
+      res.json(response.body);
+    });
+});
+
+router.get("/places/details/:id", function (req, res){
+
+  var placeId = req.params.id;
+  var reqUrl = GooglePlaceAPIDetails.replace("__placeid__", placeId);
+  unirest.get(reqUrl)
     .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
     .end(function (response) {
       res.json(response.body);
