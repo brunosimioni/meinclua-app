@@ -29,13 +29,60 @@
     </div>
   </nav>
 
+  <div class="container">
+      <p>Trabalho realizado para fins acadêmicos em fase de teste.</p>
+      <p>Desde já agradeço a todos a compreensão e colaboração.</p>
+      <p><strong>Instruções</strong></p>
+      <p>No mapa, são apresentados os pontos das escolas na região de Campinas - SP.
+      Para cadastrar uma escola inclusiva e regular da região de Campinas - SP, basta acessar a aba “Login”, realizar o cadastro no perfil escola e efetuar o login com as informações solicitadas.
+      <p>As informações cadastradas serão exibidas no mapa e apresentará um tooltip sobre o ponto da escola, possibilitando assim, ser avaliada por outros membros da rede.</p>
+      Para atribuir uma nota, à(s) escola(s) cadastrada(s), basta acessar a aba “Login”, realizar o cadastro no perfil usuário e efetuar o login com as informações solicitadas.
+      <p>A nota poderá ser atribuída diretamente no(s) tooltip(s) sobre o ponto de cada escola escolhida no mapa.</p>
+
+  </div>
+
   <div id="map">
   </div>
+
+<!-- Modal para votação -->
+<div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Avaliação</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form onsubmit="return avaliarEscola(event)">
+
+              <div class="form-group">
+                 <label for="ratingEscola">Avaliação</label>
+                 <select class="form-control" id="ratingEscola">
+                   <option>1</option>
+                   <option>2</option>
+                   <option>3</option>
+                   <option>4</option>
+                   <option>5</option>
+                 </select>
+               </div>
+
+            <button type="submit" class="btn btn-primary">Enviar avaliação</button>
+
+          </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
   <footer>
       <center><p>&copy; My App Leandro Oliveira 2018</p></center>
   </footer>
   <script>
 
+    this.hasUserLoggedIn = <%=((user && user.type) == "usuario")%>;
     this.infoWindow = null;
     this.curMarker = null;
     var markerContentString = "";
@@ -46,7 +93,7 @@
     markerContentString += "      <a href='__website__'>__name__</a>";
     markerContentString += "    </div>";
     markerContentString += "    <div class='col-4'>";
-    markerContentString += "      Rating __rating__";
+    markerContentString += "      Avaliação: __rating__";
     markerContentString += "    </div>";
     markerContentString += "  </div>";
     markerContentString += "  <div class='row'>";
@@ -57,6 +104,12 @@
     markerContentString += "  <div class='row'>";
     markerContentString += "    <div class='col-12'>";
     markerContentString += "      __addr__";
+    markerContentString += "    </div>";
+    markerContentString += "  </div>";
+
+    markerContentString += "  <div class='row'>";
+    markerContentString += "    <div class='mb-1 mt-1 col-12'>";
+    markerContentString += "      <button type='button' id='openRatingModal' data-toggle='modal' data-target='#ratingModal' class='btn btn-primary btn-sm'>Avaliar escola...</button>";
     markerContentString += "    </div>";
     markerContentString += "  </div>";
 
@@ -131,6 +184,7 @@
       if (self.curMarker) self.infoWindow.close();
       self.curMarker = marker;
       var place = marker.data;
+      //[todo] colocar informações do cadastro da eescolaa aqui
 
       $.ajax({url: window.location.href + "api/places/details/"+place.place_id}).then(function(data) {
 
@@ -144,13 +198,47 @@
             .replace("__website__", place.website)
         );
         self.infoWindow.open(map, marker);
+        self.infoWindow.place = place;
+
+        if (!hasUserLoggedIn) {
+            $("#openRatingModal").hide();
+        } else {
+            $("#openRatingModal").show();
+        }
       });
+    }
+
+    function avaliarEscola(event) {
+        event.stopPropagation();
+
+        var _data = {
+            value: $("#ratingEscola").val(),
+            place: self.infoWindow.place
+        };
+
+        try{
+            $.ajax(
+                {type: "POST",
+                url: window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/')) + "api/rating",
+                data: _data
+                }
+            ).then(function(data) {
+                if (data.status == "ok") {
+                    alert("Obrigado pela sua avaliação.");
+                    $("#ratingModal").modal('hide');
+                }
+                $("#ratingEscola").val("");
+                self.showMarkerInfo(self.curMarker);
+            });
+        } catch(e) {
+            alert(e)
+        }
+        return false;
     }
 
   </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=<%- process.env.GOOGLE_MAPS_API_KEY %>&libraries=places&callback=initApplication" async defer></script>
-
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%- process.env.GOOGLE_MAPS_API_KEY %>&libraries=places&callback=initApplication" async defer></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

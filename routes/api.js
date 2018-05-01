@@ -21,6 +21,9 @@ GooglePlaceAPIDetails += "placeid=__placeid__&"
 GooglePlaceAPIDetails += "key=" + apiKey;
 
 router.get('/places', function(req, res) {
+
+//[todo] diferenciar o que não está no banco, com uma cor diferente
+
   unirest.get(GooglePlaceAPISearch)
     .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
     .end(function (response) {
@@ -148,5 +151,21 @@ router.post("/logout", function(req, res) {
   req.session.user = null;
   res.json({status: "ok"});
 });
+
+router.post("/rating", function(req, res) {
+
+  var data = req.body;
+  var value = data.value;
+  var place = data.place;
+
+  console.log("votação, nota: " + value + " escola:" + JSON.stringify(place));
+  var stmt = db.prepare("INSERT INTO escolas_nps (id_escola, nps) VALUES (?, ?)", place.id, value);
+  stmt.run();
+  stmt.finalize();
+
+  res.json({status: "ok"});
+});
+
+
 
 module.exports = router;
