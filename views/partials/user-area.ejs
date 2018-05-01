@@ -21,7 +21,7 @@ if (user == null) {
             url: window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/')) + "api/logout"
             }
         ).then(function(data) {
-            window.location.href = "/";
+            window.location.href = "/survey";
         });
     } catch(e) {
         alert(e)

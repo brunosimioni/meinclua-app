@@ -1,0 +1,94 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
+
+<head>
+  <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="google" value="notranslate">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+  <title>MeInclua</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand h1 mb-0" href="/"><img alt="Brand" src="imgs/logo.png" width="170"/></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" href="/">Busca</a>
+        <a class="nav-item nav-link active" href="/agradecimentos">Agradecimentos</a>
+        <a class="nav-item nav-link" href="/sobre">Sobre</a>
+        <a class="nav-item nav-link " href="/ajuda">Ajuda</a>
+        <% include ./partials/user-area.ejs %>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+      </br>
+      <h1 class="display-4">Agradecimentos</h1>
+      <p class="lead">
+        Comece de onde você está. Use o que você tiver. Faça o que você puder
+      </p>
+      <br/>
+      <br/>
+
+      <div class="row">
+
+          <div class="col-sm">
+
+            <div class="card" style="width: 18rem;">
+              <img class="card-img-top img-fluid" src="/imgs/COF1.png" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">COF</h5>
+                <p class="card-text">O COF vem desenvolvendo junto a comunidade um trabalho que visa ampliação do atendimento à família, bem como sua integração com outros recursos sociais.</p>
+                <a href="http://www.cof.org.br/" class="btn btn-primary">Saiba mais</a>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="col-sm">
+
+            <div class="card" style="width: 18rem;">
+              <img class="card-img-top img-fluid" src="/imgs/CPqD1.png" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">CPQD</h5>
+                <p class="card-text">O CPqD conta com um quadro de profissionais altamente especializados em Tecnologia da Informação e Comunicação para o desenvolvimento de sistemas, tecnologias de produto, prestação de serviços tecnológicos e consultorias. Seu programa de pesquisa e desenvolvimento é o maior da América Latina em sua área de atuação.</p>
+                <a href="https://www.cpqd.com.br/" class="btn btn-primary">Saiba mais</a>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="col-sm">
+
+            <div class="card" style="width: 18rem;">
+              <img class="card-img-top img-fluid" src="/imgs/Fatec1.png" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Fatec Indaiatuba</h5>
+                <p class="card-text">A Faculdade de Tecnologia de Indaiatuba é resultante de intenção tripartite entre o Centro Estadual de Educação Tecnológica "Paula Souza", Prefeitura Municipal de Indaiatuba e a AIMI- Associação das Indústrias do Município de Indaiatuba.</p>
+                <a href="http://fatecid.com.br/v2014/index.php" class="btn btn-primary">Saiba mais</a>
+              </div>
+            </div>
+
+          </div>
+
+      </div>
+  </div>
+
+
+<footer>
+    <center><p>&copy; My App Leandro Oliveira 2018</p></center>
+</footer>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -5,8 +5,8 @@ router.get('/', function(req, res) {
 	res.render('index');
 });
 
-router.get('/parceiros', function(req, res) {
-	res.render('parceiros');
+router.get('/agradecimentos', function(req, res) {
+	res.render('agradecimentos');
 });
 
 router.get('/sobre', function(req, res) {
@@ -23,58 +23,14 @@ router.get('/ajuda', function(req, res) {
 
 });
 
-router.get('/lista', function(req, res) {
-	res.render('lista');
-
-});
-
-router.get('/cadastro', function(req, res) {
-	res.render('cadastro');
-
-});
-
-router.get('/editar', function(req, res) {
-	res.render('editar');
-
-});
-
-router.get('/cadastrar_editar', function(req, res) {
-	res.render('cadastrar_editar');
-
-});
-
-router.get('/esqueceu_senha', function(req, res) {
-	res.render('esqueceu_senha');
-
-});
-
 router.get('/login', function(req, res) {
 	res.render('login');
 
 });
 
-/* Quando usuário tem cadastro */
-
-router.get('/_cs', function(req, res) {
-	res.render('index_cs');
-});
-''
-router.get('/parceiros_cs', function(req, res) {
-	res.render('parceiros_cs');
+router.get('/survey', function(req, res) {
+	res.render('survey');
 });
 
-router.get('/sobre_cs', function(req, res) {
-	res.render('sobre_cs');
-});
-
-router.get('/termos_condicoes_cs', function(req, res) {
-	res.render('termos_condicoes_cs');
-
-});
-
-router.get('/lista_cs', function(req, res) {
-	res.render('lista_cs');
-
-});
 
 module.exports = router;
