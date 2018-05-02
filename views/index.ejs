@@ -248,10 +248,15 @@
 
           if (value == "false")
             return "Não há " + text
-          else
+          else if (value == "true")
             return "Há " + text
+          else if (!value)
+            return "";
 
         }
+
+        if (!escolaData)
+          escolaData = {};
 
         self.infoWindow.setContent(
           markerContentString.replace("__name__", place.name)
@@ -259,9 +264,9 @@
             .replace("__addr__", place.formatted_address)
             .replace("__rating__", (data.npsData ? Number.parseFloat(data.npsData.avg_score).toFixed(1) : "n/a"))
             .replace("__website__", place.website)
-            .replace("__cid__", escolaData.escola_cid)
-            .replace("__num_alunos__", escolaData.escola_numalunos)
-            .replace("__especialidade__", escolaData.escola_especialidade)
+            .replace("__cid__", escolaData.escola_cid || "N/A")
+            .replace("__num_alunos__", escolaData.escola_numalunos || "N/A")
+            .replace("__especialidade__", escolaData.escola_especialidade || "N/A")
             .replace("__check_estrutura__", threatCheckbox(escolaData.escola_check_estrutura, "Estrutura especial"))
             .replace("__check_vagas__", threatCheckbox(escolaData.escola_check_vagas, "Vagas disponíveis"))
             .replace("__check_integral__", threatCheckbox(escolaData.escola_check_integral, "Aulas período integral"))
