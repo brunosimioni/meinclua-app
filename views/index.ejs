@@ -29,19 +29,8 @@
     </div>
   </nav>
 
-  <div class="container">
-      <p>Trabalho realizado para fins acadêmicos em fase de teste.</p>
-      <p>Desde já agradeço a todos a compreensão e colaboração.</p>
-      <p><strong>Instruções</strong></p>
-      <p>No mapa, são apresentados os pontos das escolas na região de Campinas - SP.
-      Para cadastrar uma escola inclusiva e regular da região de Campinas - SP, basta acessar a aba “Login”, realizar o cadastro no perfil escola e efetuar o login com as informações solicitadas.
-      <p>As informações cadastradas serão exibidas no mapa e apresentará um tooltip sobre o ponto da escola, possibilitando assim, ser avaliada por outros membros da rede.</p>
-      Para atribuir uma nota, à(s) escola(s) cadastrada(s), basta acessar a aba “Login”, realizar o cadastro no perfil usuário e efetuar o login com as informações solicitadas.
-      <p>A nota poderá ser atribuída diretamente no(s) tooltip(s) sobre o ponto de cada escola escolhida no mapa.</p>
-
   </div>
-
-  <div id="map">
+    <div id="map">
   </div>
 
 <!-- Modal para votação -->
@@ -49,7 +38,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Avaliação</h5>
+        <h5 class="modal-title">Avaliação</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -76,6 +65,40 @@
     </div>
   </div>
 </div>
+
+<!-- Modal para aviso de beta -->
+<div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="ratingModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Boas-vindas</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="container">
+            <p>Trabalho realizado para fins acadêmicos em fase de teste.</p>
+            <p>Desde já agradeço a todos a compreensão e colaboração.</p>
+            <p><strong>Instruções</strong></p>
+            <p>No mapa, são apresentados os pontos das escolas na região de Campinas - SP.
+            Para cadastrar uma escola inclusiva e regular da região de Campinas - SP, basta acessar a aba “Login”, realizar o cadastro no perfil escola e efetuar o login com as informações solicitadas.
+            <p>As informações cadastradas serão exibidas no mapa e apresentará um tooltip sobre o ponto da escola, possibilitando assim, ser avaliada por outros membros da rede.</p>
+            Para atribuir uma nota, à(s) escola(s) cadastrada(s), basta acessar a aba “Login”, realizar o cadastro no perfil usuário e efetuar o login com as informações solicitadas.
+            <p>A nota poderá ser atribuída diretamente no(s) tooltip(s) sobre o ponto de cada escola escolhida no mapa.</p>
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+     </div>
+    </div>
+  </div>
+</div>
+
 
   <footer>
       <center><p>&copy; My App Leandro Oliveira 2018</p></center>
@@ -130,10 +153,9 @@
          content: markerContentString
       });
 
-      $.ajax({url: window.location.href + "api/places"}).then(function(data) {
+      $.ajax({url: window.location.href + "api/places"}).then(function(response) {
 
-        var places = data.results;
-
+        var places = response;
         if (places.length == 0) {
           return;
         }
@@ -153,19 +175,18 @@
             return;
           }
 
-          var icon = {
-            url: place.icon,
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(25, 25)
-          };
+          var iconUrl;
+
+          if (!place.escolaData)
+            iconUrl = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+          else
+            iconUrl = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
 
           // Create a marker for each place.
           var marker = new google.maps.Marker({
             map: map,
             data: place,
-            icon: place.icon,
+            icon: iconUrl,
             title: place.name,
             position: place.geometry.location
           });
@@ -176,6 +197,8 @@
 
           markers.push(marker);
         });
+
+      $("#welcomeModal").modal('show');
       });
     }
 
@@ -186,7 +209,7 @@
       var place = marker.data;
       //[todo] colocar informações do cadastro da eescolaa aqui
 
-      $.ajax({url: window.location.href + "api/places/details/"+place.place_id}).then(function(data) {
+      $.ajax({url: window.location.href + "api/places/details/"+place.place_id + "/gmapsid/" + place.id}).then(function(data) {
 
         var place = data.result;
 
@@ -194,7 +217,7 @@
           markerContentString.replace("__name__", place.name)
             .replace("__tel__", place.formatted_phone_number)
             .replace("__addr__", place.formatted_address)
-            .replace("__rating__", (place.rating || "n/a"))
+            .replace("__rating__", (data.npsData ? Number.parseFloat(data.npsData.avg_score).toFixed(1) : "n/a"))
             .replace("__website__", place.website)
         );
         self.infoWindow.open(map, marker);
