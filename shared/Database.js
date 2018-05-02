@@ -1,7 +1,7 @@
 const { Client } = require('pg')
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
-  ssl: true,
+  //ssl: true,
 });
 
 console.log("Connecting to PostgreSQL...")
@@ -16,7 +16,7 @@ try {
       "escola_endereco_complemento TEXT, escola_endereco_administrative_area_level_2 TEXT, " +
       "escola_endereco_administrative_area_level_1 TEXT, escola_endereco_postal_code TEXT, " +
       "escola_endereco_country TEXT, escola_endereco_gmaps_id TEXT, escola_check_estrutura TEXT, " +
-      "escola_check_vagas TEXT, escola_check_integral TEXT, escola_professores TEXT, escola_check_termos TEXT)");
+      "escola_check_vagas TEXT, escola_check_integral TEXT, escola_check_professores TEXT)");
   runCreateQuery("CREATE TABLE IF NOT EXISTS escolas_nps (ID BIGSERIAL PRIMARY KEY, gmaps_id VARCHAR, nps INTEGER)");
   runCreateQuery("INSERT INTO usuarios VALUES (1, 'User1', 'user1@users.com', 'user')");
   runCreateQuery("INSERT INTO public.escolas (" +
@@ -27,8 +27,11 @@ try {
      "escola_endereco_administrative_area_level_2, escola_endereco_administrative_area_level_1, " +
      "escola_endereco_postal_code, escola_endereco_country, escola_endereco_gmaps_id, " +
      "escola_check_estrutura, escola_check_vagas, escola_check_integral, " +
-     "escola_professores, escola_check_termos) " +
-	   " VALUES (1, 'escola@escola', 'escola', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');");
+     "escola_check_professores) " +
+	   " VALUES (1, 'escola@escola', 'escola', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');");
+
+   runCreateQuery("SELECT pg_catalog.setval(pg_get_serial_sequence('usuarios', 'id'), MAX(id)) FROM usuarios;")
+   runCreateQuery("SELECT pg_catalog.setval(pg_get_serial_sequence('escolas', 'id'), MAX(id)) FROM escolas;")
 }
 catch(e) {
   console.log(e);

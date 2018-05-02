@@ -91,7 +91,7 @@ router.post("/signup", function(req, res) {
         "escola_endereco_route", "escola_endereco_street_number", "escola_endereco_complemento",
         "escola_endereco_administrative_area_level_2", "escola_endereco_administrative_area_level_1",
         "escola_endereco_postal_code", "escola_endereco_country", "escola_endereco_gmaps_id",
-        "escola_check_estrutura", "escola_check_vagas", "escola_check_integral", "escola_professores", "escola_check_termos"];
+        "escola_check_estrutura", "escola_check_vagas", "escola_check_integral", "escola_check_professores"];
 
       var params = [];
       for (var i in fields) {

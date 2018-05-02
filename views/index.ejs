@@ -129,6 +129,35 @@
     markerContentString += "      __addr__";
     markerContentString += "    </div>";
     markerContentString += "  </div>";
+    markerContentString += "  <div class='row'>";
+    markerContentString += "    <div class='col-4'>";
+    markerContentString += "      Especialidade: __especialidade__";
+    markerContentString += "    </div>";
+    markerContentString += "    <div class='col-4'>";
+    markerContentString += "      CID: __cid__";
+    markerContentString += "    </div>";
+    markerContentString += "    <div class='col-4'>";
+    markerContentString += "      Número de alunos: __num_alunos__";
+    markerContentString += "    </div>";
+    markerContentString += "  </div>";
+
+    markerContentString += "  <div class='row'>";
+    markerContentString += "    <div class='col-6'>";
+    markerContentString += "      __check_estrutura__";
+    markerContentString += "    </div>";
+    markerContentString += "    <div class='col-6'>";
+    markerContentString += "      __check_vagas__";
+    markerContentString += "    </div>";
+    markerContentString += "  </div>";
+
+    markerContentString += "  <div class='row'>";
+    markerContentString += "    <div class='col-6'>";
+    markerContentString += "      __check_integral__";
+    markerContentString += "    </div>";
+    markerContentString += "    <div class='col-6'>";
+    markerContentString += "      __check_professores__";
+    markerContentString += "    </div>";
+    markerContentString += "  </div>";
 
     markerContentString += "  <div class='row'>";
     markerContentString += "    <div class='mb-1 mt-1 col-12'>";
@@ -188,7 +217,7 @@
             data: place,
             icon: iconUrl,
             title: place.name,
-            position: place.geometry.location
+            position: place.geometry.location,
           });
 
           marker.addListener('click', function() {
@@ -205,13 +234,24 @@
 
     function showMarkerInfo(marker) {
       if (self.curMarker) self.infoWindow.close();
+
       self.curMarker = marker;
+
       var place = marker.data;
-      //[todo] colocar informações do cadastro da eescolaa aqui
+      var escolaData = place.escolaData;
 
       $.ajax({url: window.location.href + "api/places/details/"+place.place_id + "/gmapsid/" + place.id}).then(function(data) {
 
         var place = data.result;
+
+        function threatCheckbox(value, text) {
+
+          if (value == "false")
+            return "Não há " + text
+          else
+            return "Há " + text
+
+        }
 
         self.infoWindow.setContent(
           markerContentString.replace("__name__", place.name)
@@ -219,6 +259,13 @@
             .replace("__addr__", place.formatted_address)
             .replace("__rating__", (data.npsData ? Number.parseFloat(data.npsData.avg_score).toFixed(1) : "n/a"))
             .replace("__website__", place.website)
+            .replace("__cid__", escolaData.escola_cid)
+            .replace("__num_alunos__", escolaData.escola_numalunos)
+            .replace("__especialidade__", escolaData.escola_especialidade)
+            .replace("__check_estrutura__", threatCheckbox(escolaData.escola_check_estrutura, "Estrutura especial"))
+            .replace("__check_vagas__", threatCheckbox(escolaData.escola_check_vagas, "Vagas disponíveis"))
+            .replace("__check_integral__", threatCheckbox(escolaData.escola_check_integral, "Aulas período integral"))
+            .replace("__check_professores__", threatCheckbox(escolaData.escola_check_professores, "Professores dedicados"))
         );
         self.infoWindow.open(map, marker);
         self.infoWindow.place = place;

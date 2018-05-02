@@ -107,8 +107,8 @@
       <label class="form-check-label" for="escola_check_integral">Aulas oferecidas em período integral</label>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="escola_professores" >
-      <label class="form-check-label" for="escola_professores">Professores a parte na sala de aula para o(s) aluno(s) down</label>
+      <input class="form-check-input" type="checkbox" value="" id="escola_check_professores" >
+      <label class="form-check-label" for="escola_check_professores">Professores a parte na sala de aula para o(s) aluno(s) down</label>
     </div>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" value="" id="escola_check_termos" required>
@@ -190,12 +190,22 @@
       "escola_endereco_route", "escola_endereco_street_number", "escola_endereco_complemento",
       "escola_endereco_administrative_area_level_2", "escola_endereco_administrative_area_level_1",
       "escola_endereco_postal_code", "escola_endereco_country",
-      "escola_check_estrutura", "escola_check_vagas", "escola_check_integral", "escola_professores", "escola_check_termos"];
+      "escola_check_estrutura", "escola_check_vagas", "escola_check_integral", "escola_check_professores"];
 
       var data = {};
 
       for (var i in fields) {
-        data[fields[i]] = $("#" + fields[i]).val() || "n/a";
+
+        switch (fields[i]) {
+          case "escola_check_estrutura":
+          case "escola_check_vagas":
+          case "escola_check_integral":
+          case "escola_check_professores":
+            data[fields[i]] = $("#" + fields[i])[0].checked || false;
+            break;
+          default:
+            data[fields[i]] = $("#" + fields[i]).val() || "n/a";
+        }
       }
 
       data.type = "escola";
